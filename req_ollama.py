@@ -1,9 +1,27 @@
 import requests
-import json
 
 url = 'http://localhost:11434/api/generate'
 
-# SQL schema defined outside the JSON payload
+
+schema="""
+
+Departments Table:
+
+DepartmentID: Unique identifier for each department. Primary Key.
+DepartmentName: Name of the department.
+Location: Mailing address or location of the department.
+
+Employees Table:
+
+EmployeeID: Unique identifier for each employee. Primary Key.
+FirstName: First name of the employee.
+LastName: Last name of the employee.
+DepartmentID: Foreign key referencing the department to which the employee belongs.
+Position: Job position or title of the employee.
+Salary: Salary of the employee.
+
+"""
+
 sql_schema = """
 CREATE SCHEMA RewardsProgram; 
 CREATE TABLE Customer ( 
@@ -55,6 +73,12 @@ CREATE TABLE Product (
 
 data = {
     "model": "llama3",
+    "prompt": "Below are sql tables descriptions paired with instruction that describes a task. Using valid sql, write a response that appropriately completes the request for the provided tables. Give just the query, no explanation, only the sql query. ###Instruction: Can you list the top 3 departments with the highest average salary? ### Input:" + schema,
+    "stream": False
+}
+
+data2 = {
+    "model": "llama3",
     "prompt": "Below are sql tables schemas paired with instruction that describes a task. Using valid sql, write a response that appropriately completes the request for the provided tables. Give just the query, no explanation, only the sql query. ###Instruction: How many transactions were made by a customer named EWINSOU in April? ### Input:" + sql_schema,
     "stream": False
 }
@@ -65,8 +89,9 @@ if response.status_code == 200:
     response_data = response.json()
     
     api_response = response_data.get('response', 'No response field found')
-    print("Response from API:")
+    print("SQL Query: ")
     print(api_response)
 
 else:
     print(f"Failed to retrieve data, status code {response.status_code}")
+
