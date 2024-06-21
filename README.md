@@ -1,15 +1,15 @@
-# ollama-in-docker
+# NL2SQL
 
-Run a large language model locally. (On CPU)
+In this project, I ran a large language model locally (Llama3) for a NL2SQL task (On CPU)
 
 1. Clone the repository:
 ```bash
-git clone git@github.com:Ewins518/ollama-in-docker.git
+git clone git@github.com:Ewins518/nl2sql-ollama-llama3.git
 ```
 
 2. Navigate in the directory
 ```bash
-cd ollama-in-docker
+cd nl2sql-ollama-llama3
 ```
 
 3. Run docker
